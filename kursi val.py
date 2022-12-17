@@ -1,6 +1,8 @@
 
 import requests
 from bs4 import BeautifulSoup
+import json
+
 print("1. Курс валют \n"
       "2. Курс криптовалют")
 kurs = int(input())
@@ -36,15 +38,12 @@ elif kurs == 2:
           "2. Курс на определенное число")
     vibor = int(input())
     if vibor == 1:
-        url1 = 'https://cbr.ru'
-        response = requests.get(url1)
-        bs = BeautifulSoup(response.text, "lxml")
+        url2 = 'https://blockchain.info/ticker'
 
-        dol = bs.find_all('div', 'col-md-2 col-xs-9 _right mono-num')[1]
-        print("Курс доллара:", dol.text)
+        response = requests.get(url2).text
 
-        eur = bs.find_all('div', 'col-md-2 col-xs-9 _right mono-num')[3]
-        print("Курс евро:", eur.text)
+        res = json.loads(response)
+        print(res.get('RUB').get('last'), "₽")
     elif vibor == 2:
         year = input("Введите год \n")
         month = input("Введите месяц в формате мм (пример: Январь - 01) \n")
